@@ -2,9 +2,9 @@ name: Production Build
 
 on:
   pull_request:
-  types: [opened]
-  branches:
-    - main
+    types: [synchronize, closed, opened]
+    branches:
+      - main
 
 jobs:
   build:

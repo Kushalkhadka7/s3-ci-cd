@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  build-tambola:
+  build-app:
     runs-on: ubuntu-latest
     steps:
       - name: Checking out code
@@ -33,6 +33,4 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
 
       - name: Deploy to S3 bucket
-        run: |
-          ls -al
-          aws s3 sync ./build/ s3://devops-bucket-kushal --delete
+        run: aws s3 sync ./build/ s3://devops-bucket-kushal --delete

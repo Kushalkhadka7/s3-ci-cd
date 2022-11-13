@@ -1,9 +1,10 @@
 name: Build and push to docker hub.
 
 on:
-  push:
+  pull_request:
+    types: [synchronize, closed, opened]
     branches:
-      - "main"
+      - main
 
 jobs:
   build:

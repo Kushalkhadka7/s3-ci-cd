@@ -1,0 +1,35 @@
+version: 2
+
+general:
+  branches:
+    only:
+      - main
+
+jobs:
+  deploy:
+    machine:
+      image: ubuntu-2004:202107-02
+    steps:
+      - checkout
+      - run:
+          name: Build and Deploy to ECS
+          command: |
+            # Install aws cli
+            sudo apt update -y
+            sudo apt install awscli -y
+            
+            # Login to aws ecr
+            aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/o2e6u6n6
+            
+            # Build and push docker image to aws ecr
+            docker build -t public.ecr.aws/o2e6u6n6/kushal:success .
+            docker push public.ecr.aws/o2e6u6n6/kushal:success
+            
+            # Update ECS service
+            aws ecs update-service --cluster devops-cluster-kushal --service web-app --force-new-deployment --region us-east-1
+
+workflows:
+  version: 2
+  deploy_ecs:
+    jobs:
+      - deploy

@@ -33,4 +33,4 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
 
       - name: Deploy to S3 bucket
-        run: aws s3 sync ./dist/ s3://devops-bucket-kushal --delete
+        run: aws s3 sync ./build/ s3://devops-bucket-kushal --delete
